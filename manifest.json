@@ -1,0 +1,25 @@
+{
+    "name": "Agent Smith",
+    "version": "0.1",
+    "manifest_version": 2,
+    "description": "Customize web page with jquery and underscore.",
+    "icons": {
+        "128": "img/smith128.png",
+        "48": "img/smith48.png",
+        "32": "img/smith32.png",
+        "16": "img/smith16.png" },
+    "background": {
+        "persistent": false,
+        "scripts": ["js/eventpage.js"]
+    },
+    "permissions": ["tabs", "clipboardRead", "clipboardWrite", "http://*/*", "https://*/*"],
+    "browser_action": {
+        "default_title": "Agent Smith",
+        "default_icon": "img/smith16.png"
+    },
+    "web_accessible_resources": [
+        "js/jquery-1.8.1.min.js",
+        "js/underscore-min.js"
+    ],
+    "devtools_page": "devtools.html"
+}
