@@ -39,3 +39,18 @@ if ($('[src="' + underscore + '"]').length==0){
     console.log("Repeated underscore injection aborted.");
 };
 
+var backbone = chrome.extension.getURL("js/backbone-min.js");
+if ($('[src="' + backbone + '"]').length==0){
+//    $('<script type="text/javascript" src="' + backbone + '"></script>').appendTo('head');
+
+    script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = backbone;
+//    head.appendChild(script);
+    $('head').append(script);
+
+    console.log("backbone injected <- " + backbone);
+}else{
+    console.log("Repeated backbone injection aborted.");
+};
+

@@ -4,17 +4,33 @@
     <title></title>
     <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
     <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/backbone-min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+    <script type="text/javascript" src="js/injection.js"></script>
 </head>
 <body>
+    <script type="text/template" id="snippet-template">
+        <li id="sidebar-request-cb8f19fd-42ca-2da2-ce19-e82129e7b558" class="sidebar-history-request sidebar-request clearfix">
+            <div class="request-actions" style="display: none; ">
+                <a data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558" class="request-actions-delete">
+                    <img src="img/delete.png">
+                </a>
+            </div>
+            <div class="request" data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558">
+                <a data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558">
+                    <span class="label label-method-GET">GET</span>
+                                <span class="request-name">
+                                    gap.samdeha.com
+                                </span>
+                </a>
+            </div>
+        </li>
+    </script>
     <div id="container" class="clearfix">
         <div id="sidebar-footer">
-            Make Agent Smith better!
-        </div>
-        <div id="sidebar-toggle">
-            <img src="img/tri_arrow_left.png"/>
+            <a href="http://gap.samdeha.com/agent-smith/">Make Agent Smith better!</a>
         </div>
         <div id="sidebar">
             <div id="header" class="clearfix">
@@ -24,44 +40,45 @@
                              width="171px"/>
                     </a>
                 </div>
-                <div id="external-links">
-                    <ul>
-                        <li>
-                            <a href="http://www.twitter.com/postmanclient"
-                               rel="tooltip" target="_blank"
-                               data-original-title="Follow Postman on Twitter to get updates and
-		                        kick-ass API tips"
-                               data-placement="bottom">
-                                <img src="img/twitter.png"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://github.com/motord/Agent-Smith-Chrome-Extension/wiki"
-                               rel="tooltip" target="_blank"
-                               data-original-title="Know more about Postman at
-		                        the wiki"
-                               data-placement="bottom">
-                                <img src="img/question_mark.png"/>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
-            <div class="dropdown">
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
-                    <li><a tabindex="-1" href="#">Action</a></li>
-                    <li><a tabindex="-1" href="#">Another action</a></li>
-                    <li><a tabindex="-1" href="#">Something else here</a></li>
+            <div id="sidebar-sections" class="clearfix">
+                <ul id="snippets" class="clearfix">
                 </ul>
             </div>
+            <div id="sidebar-filler"></div>
+
         </div>
         <div id="main">
-            <div class="btn-group">
-                <button class="btn btn-small btn-primary" type="button"><i class="icon-plus"></i></button>
-                <button class="btn btn-small btn-danger" type="button"><i class="icon-trash"></i></button>
-                <button class="btn btn-small btn-primary" type="button"><i class="icon-ok"></i></button>
-                <button class="btn btn-small" type="button"><i class="icon-remove"></i></button>
-            </div>
+            <section id="snippet">
+                <div id="snippet-title" class="clearfix">
+                    <div id="snippet-title-wrapper">
+                        <div id="snippet-title-container">
+                            <input type="text" name="title" id="title" tabindex="1" class="input-text-light"
+                                   placeholder="Enter snippet title here"/>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div id="url-match-pattern" class="clearfix">
+                    <div id="url-match-pattern-wrapper">
+                        <div id="url-match-pattern-container">
+                            <input type="text" name="pattern" id="pattern" tabindex="1" class="input-text-light"
+                                   placeholder="Enter url match pattern here"/>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div id="code-editor">
+                    <textarea id="code-text"></textarea>
+                </div>
+                <div id="snippet-actions">
+                    <div id="snippet-actions-buttons-container">
+                        <button class="btn btn-primary" id="snippet-actions-save"><i
+                                class="icon-hdd"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </body>

@@ -12,14 +12,15 @@
         "persistent": false,
         "scripts": ["js/eventpage.js"]
     },
-    "permissions": ["tabs", "clipboardRead", "clipboardWrite", "http://*/*", "https://*/*"],
+    "permissions": ["tabs", "clipboardRead", "clipboardWrite", "http://*/*"],
     "browser_action": {
         "default_title": "Agent Smith",
         "default_icon": "img/smith16.png"
     },
     "web_accessible_resources": [
         "js/jquery-1.8.1.min.js",
-        "js/underscore-min.js"
+        "js/underscore-min.js",
+        "js/backbone-min.js"
     ],
     "devtools_page": "devtools.html"
 }

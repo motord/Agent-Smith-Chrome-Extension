@@ -10,6 +10,7 @@ samdeha.gap = samdeha.gap || {};
 samdeha.gap.AgentSmith = function(){
     chrome.tabs.executeScript(null, {file: "js/jquery-1.8.1.min.js"});
     chrome.tabs.executeScript(null, {file: "js/underscore-min.js"});
+    chrome.tabs.executeScript(null, {file: "js/backbone-min.js"});
     chrome.tabs.executeScript(null, {file: "js/smith.js"});
 };
 chrome.extension.onMessage.addListener(
