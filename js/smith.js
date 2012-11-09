@@ -7,50 +7,31 @@
  */
 var samdeha = samdeha || {};
 samdeha.gap = samdeha.gap || {};
-samdeha.gap.AgentSmith = samdeha.gap.AgentSmith || {};
+samdeha.gap.AgentSmith = function() {
+    var inject = function(js) {
+        if ($('[src="' + js + '"]').length==0){
+        //    $('<script type="text/javascript" src="' + js + '"></script>').appendTo('head');
 
-var jquery = chrome.extension.getURL("js/jquery-1.8.1.min.js");
-if ($('[src="' + jquery + '"]').length==0){
-//    $('<script type="text/javascript" src="' + jquery + '"></script>').appendTo('head');
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = js;
+        //    head.appendChild(script);
+            $('head').append(script);
 
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = jquery;
-//    head.appendChild(script);
-    $('head').append(script);
+            console.log("Injected <- " + js);
+        }else{
+            console.log("Repeated injection aborted -x- " + js);
+        };
+    };
 
-    console.log("jquery injected <- " + jquery);
-}else{
-    console.log("Repeated jquery injection aborted.");
+    var jquery = chrome.extension.getURL("js/jquery-1.8.1.min.js");
+    var underscore = chrome.extension.getURL("js/underscore-min.js");
+    var backbone = chrome.extension.getURL("js/backbone-min.js");
+
+    return function(){
+        inject(jquery);
+        inject(underscore);
+        inject(backbone);
+    };
 };
-
-var underscore = chrome.extension.getURL("js/underscore-min.js");
-if ($('[src="' + underscore + '"]').length==0){
-//    $('<script type="text/javascript" src="' + underscore + '"></script>').appendTo('head');
-
-    script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = underscore;
-//    head.appendChild(script);
-    $('head').append(script);
-
-    console.log("underscore injected <- " + underscore);
-}else{
-    console.log("Repeated underscore injection aborted.");
-};
-
-var backbone = chrome.extension.getURL("js/backbone-min.js");
-if ($('[src="' + backbone + '"]').length==0){
-//    $('<script type="text/javascript" src="' + backbone + '"></script>').appendTo('head');
-
-    script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = backbone;
-//    head.appendChild(script);
-    $('head').append(script);
-
-    console.log("backbone injected <- " + backbone);
-}else{
-    console.log("Repeated backbone injection aborted.");
-};
-
+samdeha.gap.AgentSmith()();

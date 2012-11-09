@@ -7,20 +7,8 @@
  */
 $(function(){
 
-    // Our basic **Task** model has `todo`, `created`, and `accomplished` attributes.
-    window.Task = Backbone.Model.extend({
+    window.Snippet = Backbone.Model.extend({
 
-        // If you don't provide a task, one will be provided for you.
-        EMPTY: "empty task...",
-
-        // Ensure that each task created has `todo`.
-        initialize: function() {
-            if (!this.get("todo")) {
-                this.set({"todo": this.EMPTY});
-            }
-        },
-
-        // Remove this Task from *localStorage* and delete its view.
         clear: function() {
             this.destroy();
             this.view.remove();
@@ -28,61 +16,24 @@ $(function(){
 
     });
 
-    // Task Collection
-    // ---------------
-
-    // The collection of tasks is backed by *localStorage* instead of a remote
-    // server.
-    window.TaskList = Backbone.Collection.extend({
+    window.Snippets = Backbone.Collection.extend({
 
         // Reference to this collection's model.
-        model: Task,
-
-        // Save all of the task items under the `"tasks"` namespace.
-        //localStorage: new Store("tasks"),
-
-        url: '/api/',
-
-        // Filter down the list of all task items that are finished.
-        accomplished: function() {
-            return this.filter(function(task){ return task.get('accomplished'); });
-        },
-
-        // Filter down the list to only task items that are still not finished.
-        remaining: function() {
-            return this.without.apply(this, this.accomplished());
-        },
-
-        // Tasks are sorted by their original insertion order.
-        comparator: function(task) {
-            return task.get('id');
-        }
+        model: Snippet
 
     });
 
-    // Create our global collection of **Tasks**.
-    window.Tasks = new TaskList;
-
-    // Task Item View
-    // --------------
-
-    // The DOM element for a task item...
-    window.TaskView = Backbone.View.extend({
+    window.SnippetView = Backbone.View.extend({
 
         //... is a list tag.
         tagName:  "li",
 
         // Cache the template function for a single item.
-        templates: {'#item-template': _.template($('#item-template').html()),
-            '#item-template-readonly':_.template($('#item-template-readonly').html())
-        },
+        template: _.template($('#snippet-template').html()),
 
         // The DOM events specific to an item.
         events: {
-            "click .check"              : "toggleAccomplished",
-            "dblclick label.task-content" : "edit",
-            "click span.task-destroy"   : "clear",
-            "keypress .task-input"      : "updateOnEnter"
+            "click a.snippet-actions-delete"   : "clear"
         },
 
         // The TaskView listens for changes to its model, re-rendering. Since there's
@@ -92,17 +43,11 @@ $(function(){
             _.bindAll(this, 'render', 'close');
             this.model.bind('change', this.render);
             this.model.view = this;
-            Auth.bind('change', this.render);
         },
 
         // Re-render the contents of the task item.
         render: function() {
-            if (Auth.get("authorized")){
-                $(this.el).html(this.templates['#item-template'](this.model.toJSON()));
-            }
-            else {
-                $(this.el).html(this.templates['#item-template-readonly'](this.model.toJSON()));
-            };
+            $(this.el).html(this.template(this.model.toJSON()));
             this.setTodo();
             return this;
         },
@@ -154,15 +99,11 @@ $(function(){
 
         // Instead of generating a new element, bind to the existing skeleton of
         // the App already present in the HTML.
-        el: $("#taskapp"),
-
-        // Our template for the line of statistics at the bottom of the app.
-        statsTemplate: _.template($('#stats-template').html()),
+        el: $("#container"),
 
         // Delegated events for creating new items, and clearing completed ones.
         events: {
-            "keypress #new-task":  "createOnEnter",
-            "keyup #new-task":     "showTooltip"
+            "click #snippet-actions-save":  "createOnEnter"
         },
 
         // At initialization we bind to the relevant events on the `Tasks`
@@ -175,48 +116,33 @@ $(function(){
 
             this.input    = this.$("#new-task");
 
-            Tasks.bind('add',     this.addOne);
-            Tasks.bind('reset', this.addAll);
-            Tasks.bind('all',     this.render);
+            Snippets.bind('add',     this.addOne);
+            Snippets.bind('reset', this.addAll);
+            Snippets.bind('all',     this.render);
 
-            Tasks.fetch();
+            Snippets.fetch();
         },
 
         // Re-rendering the App just means refreshing the statistics -- the rest
         // of the app doesn't change.
         render: function() {
-            var accomplished = Tasks.accomplished().length;
-            this.$('#task-stats').html(this.statsTemplate({
-                total:      Tasks.length,
-                accomplished:       Tasks.accomplished().length,
-                remaining:  Tasks.remaining().length
-            }));
         },
 
-        // Add a single task item to the list by creating a view for it, and
+        // Add a single snippet item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
-        addOne: function(task) {
-            var view = new TaskView({model: task});
-            this.$("#task-list").append(view.render().el);
+        addOne: function(snippet) {
+            var view = new SnippetView({model: snippet});
+            this.$("#snippets").append(view.render().el);
         },
 
-        // Add all items in the **Tasks** collection at once.
+        // Add all items in the **Snippets** collection at once.
         addAll: function() {
-            Tasks.each(this.addOne);
-        },
-
-        // Generate the attributes for a new Task item.
-        newAttributes: function() {
-            return {
-                todo: this.input.val(),
-                accomplished:    false
-            };
+            Snippets.each(this.addOne);
         },
 
         // If you hit return in the main input field, create new **Task** model,
         // persisting it to *localStorage*.
         createOnEnter: function(e) {
-            if (e.keyCode != 13) return;
             Tasks.create(this.newAttributes());
             this.input.val('');
         }

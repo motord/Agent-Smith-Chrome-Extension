@@ -9,11 +9,21 @@
         "32": "img/smith32.png",
         "16": "img/smith16.png" },
     "background": {
-        "persistent": false,
-        "scripts": ["js/eventpage.js"]
+        "scripts": ["js/background.js"]
     },
-    "permissions": ["tabs", "clipboardRead", "clipboardWrite", "http://*/*"],
-    "browser_action": {
+    "options_page": "options.html",
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+
+        "js": [
+            "js/content.js"
+        ],
+
+        "run_at": "document_idle",
+        "all_frames": true
+    }],
+    "permissions": ["tabs", "storage", "clipboardRead", "clipboardWrite", "http://*/*", "https://*/*"],
+    "page_action": {
         "default_title": "Agent Smith",
         "default_icon": "img/smith16.png"
     },
@@ -21,6 +31,5 @@
         "js/jquery-1.8.1.min.js",
         "js/underscore-min.js",
         "js/backbone-min.js"
-    ],
-    "devtools_page": "devtools.html"
+    ]
 }

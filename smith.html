@@ -8,22 +8,22 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" media="all">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="all">
+    <script type="text/javascript" src="js/backbone-chrome.storage.sync.js"></script>
     <script type="text/javascript" src="js/injection.js"></script>
 </head>
 <body>
     <script type="text/template" id="snippet-template">
         <li id="sidebar-request-cb8f19fd-42ca-2da2-ce19-e82129e7b558" class="sidebar-history-request sidebar-request clearfix">
             <div class="request-actions" style="display: none; ">
-                <a data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558" class="request-actions-delete">
+                <a data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558" class="snippet-actions-delete">
                     <img src="img/delete.png">
                 </a>
             </div>
             <div class="request" data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558">
                 <a data-request-id="cb8f19fd-42ca-2da2-ce19-e82129e7b558">
-                    <span class="label label-method-GET">GET</span>
-                                <span class="request-name">
-                                    gap.samdeha.com
-                                </span>
+                    <span class="snippet-title">
+                        <%= title %>
+                    </span>
                 </a>
             </div>
         </li>
